@@ -1,0 +1,21 @@
+uuid: cbcba551-70f1-4247-87dd-d008f76f7d11
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.blog
+  module:
+    - node
+    - toolbar
+id: guest_bloggers
+label: 'Guest Bloggers'
+weight: 5
+is_admin: null
+permissions:
+  - 'access toolbar'
+  - 'administer permissions'
+  - 'create blog content'
+  - 'delete own blog content'
+  - 'edit own blog content'
+  - 'revert blog revisions'
+  - 'view blog revisions'

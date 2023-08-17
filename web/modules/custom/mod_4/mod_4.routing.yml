@@ -1,0 +1,8 @@
+extra_practice.custom_api:
+  path: '/custom_api'
+  defaults:
+    _controller: 'Drupal\mod_4\Controller\CustomAPI::buildResult'
+    author_name: NULL
+    tag_name: NULL
+  requirements:
+    _permission: 'access content'

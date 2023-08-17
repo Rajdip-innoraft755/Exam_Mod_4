@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * This module file is responsible for implement the required hooks.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function mod_4_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if ($entity->bundle() == 'blog' && $view_mode != 'teaser') {
+    $body = $entity->get('body')->value;
+    $build['body']['#attributes'] = [
+      'class' => ['body_field'],
+    ];
+    $build['read_more'] = [
+      '#type' => 'submit',
+      '#button_type' => 'secondary',
+      '#value' => t('Read More'),
+      '#attributes' => [
+        'class' => ['read_more'],
+      ],
+    ];
+    $build['read_less'] = [
+      '#type' => 'submit',
+      '#button_type' => 'secondary',
+      '#value' => t('Read Less'),
+      '#attributes' => [
+        'class' => ['read_less'],
+      ],
+    ];
+    $build['#attached']['library'][] = 'mod_4/read_more';
+    $build['#attached']['drupalSettings']['mod_4']['body'] = $body;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mod_4_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['account']['roles']['#options'] = [
+    "authenticated" => "Authenticated user",
+    "bloggers" => "Bloggers",
+    "guest_bloggers" => "Guest Bloggers",
+  ];
+  $form['account']['mail']['#weight'] = -2;
+  $form['account']['verify'] = [
+    '#type' => 'button',
+    '#submit' => 'otpVerification',
+    '#weight' => -1,
+    '#value' => t('Verify The Email Id'),
+  ];
+
+  // dd($form);
+}
