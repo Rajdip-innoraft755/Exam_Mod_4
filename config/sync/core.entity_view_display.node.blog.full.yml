@@ -1,8 +1,9 @@
-uuid: 20bcc9fd-acc4-4f1d-b032-fc912844801a
+uuid: f87b4b20-6316-4797-a266-338c0e270437
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.full
     - field.field.node.blog.body
     - field.field.node.blog.field__blog_tags
     - field.field.node.blog.field_like
@@ -13,10 +14,10 @@ dependencies:
     - like_dislike
     - smart_read_more_link
     - user
-id: node.blog.default
+id: node.blog.full
 targetEntityType: node
 bundle: blog
-mode: default
+mode: full
 content:
   body:
     type: smart_read_more_link
@@ -24,7 +25,7 @@ content:
     settings:
       trim_length: '50'
     third_party_settings: {  }
-    weight: 101
+    weight: 2
     region: content
   field__blog_tags:
     type: entity_reference_label
@@ -32,7 +33,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 102
+    weight: 3
     region: content
   field_like:
     type: like_dislike_formatter
@@ -41,7 +42,7 @@ content:
       likes_label: Like
       dislikes_label: Dislike
     third_party_settings: {  }
-    weight: 104
+    weight: 1
     region: content
   field_published_date:
     type: datetime_default
@@ -50,11 +51,11 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 103
+    weight: 4
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden: {  }

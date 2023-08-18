@@ -1,0 +1,33 @@
+uuid: e25d04f5-45ea-4065-8627-ec3307377aba
+langcode: en
+status: true
+dependencies:
+  module:
+    - mod_4
+    - node
+    - system
+  theme:
+    - olivero
+id: olivero_relatedblock
+theme: olivero
+region: sidebar
+weight: 0
+provider: null
+plugin: mod_4_realted_block
+settings:
+  id: mod_4_realted_block
+  label: 'Related Block'
+  label_display: visible
+  provider: mod_4
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/node/*'
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      blog: blog
