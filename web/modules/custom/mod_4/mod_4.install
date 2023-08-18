@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function mod_4_schema() {
+  $schema['blog_like'] = [
+    'description' => 'Likes in the blog.',
+    'fields' => [
+      'nid' => [
+        'type' => 'int',
+        'length' => 12,
+        'not null' => TRUE,
+      ],
+
+      'like_count' => [
+        'type' => 'int',
+        'length' => 12,
+        'not null' => TRUE,
+      ],
+    ],
+
+    'primary key' => ['nid'],
+  ];
+
+  return $schema;
+}

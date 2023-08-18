@@ -5,9 +5,13 @@
  * This module file is responsible for implement the required hooks.
  */
 
+use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements hook_ENTITY_TYPE_view().
@@ -36,7 +40,44 @@ function mod_4_node_view(array &$build, EntityInterface $entity, EntityViewDispl
     ];
     $build['#attached']['library'][] = 'mod_4/read_more';
     $build['#attached']['drupalSettings']['mod_4']['body'] = $body;
+
+    // Day 2 Implementation.
+    $conn = Database::getConnection();
+    $likes = $conn->select('blog_like', 'like')
+      ->condition('like.nid', $entity->id(), '=')
+      ->fields('like', [' like_count'])->execute()->fetchAll();
+    $build['like'] = [
+      '#type' => 'container',
+      '#weight' => -2,
+    ];
+    $build['like']['like_button'] = [
+      '#type' => 'button',
+      '#value' => 'Like',
+      '#limit_validation_errors' => [],
+      // '#submit' => ['mod_4_like'],
+      '#ajax' => [
+        'callback' => 'mod_4_like',
+        'event' => 'click',
+      ],
+    ];
+    $build['like']['number'] = [
+      '#type' => 'button',
+      '#prop' => [
+        'disabled' => TRUE,
+      ],
+      '#value' => $likes ? $likes[0]->like_count : 0,
+    ];
+
+    $build['author'] = [
+      '#type' => 'textfield',
+      '#value' => User::load($entity->getOwnerId())->getDisplayName(),
+    ];
+    // dd($build);
   }
+}
+
+function mod_4_like(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+
 }
 
 /**
@@ -55,6 +96,22 @@ function mod_4_form_user_register_form_alter(&$form, FormStateInterface $form_st
     '#weight' => -1,
     '#value' => t('Verify The Email Id'),
   ];
+}
 
-  // dd($form);
+/**
+ * Implements hook_cron().
+ */
+function mod_4_cron() {
+  if (date('G', time()) == 5) {
+    $query = \Drupal::entityQuery('node')
+      ->condition('created', strtotime('-1 year'), '<=');
+    $nids = $query->execute();
+    foreach ($nids as $nid) {
+      $node = Node::load($nid);
+      $roles = User::load($nid->getOwnerId())->getRoles();
+      if ($node->bundle() == 'blog' && in_array(['guest_bloggers'], $roles)) {
+        $node->delete();
+      }
+    }
+  }
 }
