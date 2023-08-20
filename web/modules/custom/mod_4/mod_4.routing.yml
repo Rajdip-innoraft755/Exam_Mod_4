@@ -1,0 +1,17 @@
+mod_4.custom_api:
+  path: '/custom_api'
+  defaults:
+    _controller: 'Drupal\mod_4\Controller\CustomAPI::buildResult'
+    author_name: NULL
+    tag_name: NULL
+  requirements:
+    _permission: 'access content'
+
+mod_4.related_block:
+  path: '/'
+  defaults:
+    _title: 'Related Block'
+    _controller: 'Drupal\mod_4\Controller\CustomAPI::buildResult'
+    _block: 'Drupal\mod_4\Plugin\Block\RelatedBlock'
+  requirements:
+    _permission: 'access content'

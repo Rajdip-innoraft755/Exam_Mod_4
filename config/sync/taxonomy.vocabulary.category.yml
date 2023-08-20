@@ -1,0 +1,8 @@
+uuid: 9d1efc0d-2e34-42a8-a674-41cb33ce94b2
+langcode: en
+status: true
+dependencies: {  }
+name: Category
+vid: category
+description: 'This is to specify the blog category'
+weight: 0

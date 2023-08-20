@@ -1,0 +1,21 @@
+uuid: 18253257-961d-4528-8df5-237d02546a05
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.blog
+  module:
+    - node
+    - toolbar
+id: bloggers
+label: Bloggers
+weight: 4
+is_admin: null
+permissions:
+  - 'access toolbar'
+  - 'administer permissions'
+  - 'create blog content'
+  - 'delete own blog content'
+  - 'edit own blog content'
+  - 'revert blog revisions'
+  - 'view blog revisions'

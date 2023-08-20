@@ -1,0 +1,6 @@
+read_more:
+  js:
+    js/read_more.js: {}
+  css:
+    component:
+      css/blog.css: {}
